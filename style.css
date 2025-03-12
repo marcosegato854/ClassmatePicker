@@ -1,0 +1,64 @@
+.row-cols-5 > * {
+    flex: 0 0 auto;
+    width: 20%;
+  }
+  
+  /* Card styling */
+  .card {
+    margin-bottom: 20px;
+    transition: transform 0.3s ease;
+    height: 100%;
+    align-items: center;
+  }
+  
+  /* .card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  } */
+  
+  .card img {
+    padding-top: 5px;
+    width: 30%;
+    height: auto;
+    object-fit: cover;
+  }
+  
+  /* Container for all cards */
+  #cards {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 10px;
+  }
+  
+  /* Responsive adjustments */
+  @media (max-width: 1199.98px) {
+    .row-cols-5 > * {
+      width: 25%; /* 4 columns on medium-large screens */
+    }
+  }
+  
+  @media (max-width: 991.98px) {
+    .row-cols-5 > * {
+      width: 33.333333%; /* 3 columns on medium screens */
+    }
+  }
+  
+  @media (max-width: 767.98px) {
+    .row-cols-5 > * {
+      width: 50%; /* 2 columns on small screens */
+    }
+  }
+  
+  @media (max-width: 575.98px) {
+    .row-cols-5 > * {
+      width: 100%; /* 1 column on extra small screens */
+    }
+  }
+
+  .sorteggiato{
+    background-color: green;    
+  }
+
+  .inactive{
+    background-color: grey;
+  }
