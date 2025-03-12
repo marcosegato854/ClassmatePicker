@@ -30,18 +30,16 @@ const randomBtn = document.getElementById("sorteggia");
 
 randomBtn.addEventListener("click", suspance);
 
-// Create a row container with Bootstrap classes
 const row = document.createElement("div");
-row.className = "row row-cols-5 g-3"; // g-3 adds gutters between cards
+row.className = "row row-cols-5 g-3";
 cardsDiv.appendChild(row);
 
 cardData.forEach(student => {
-    // Create a column for each card
     const col = document.createElement("div");
-    col.className = "col"; // This will use our custom 5-column grid
+    col.className = "col"; 
 
     const card = document.createElement("div");
-    card.className = "card h-100"; // h-100 makes all cards the same height
+    card.className = "card h-100";
     card.id = `${student.numero}`;
 
     const img = document.createElement("img");
@@ -53,7 +51,7 @@ cardData.forEach(student => {
     studNameSurname.className = "card-text";
     studNameSurname.innerHTML = `${student.nome} ${student.cognome}`;
 
-    // Assemble the card
+    
     card.appendChild(img);
     card.appendChild(studNameSurname);
     col.appendChild(card);
@@ -63,11 +61,6 @@ cardData.forEach(student => {
 let callednumbers = [];
 
 function getNumber() {
-    if (document.querySelector(".sorteggiato")) {
-        let elemento1 = document.querySelector(".sorteggiato");
-        elemento1.classList.remove("sorteggiato");
-        elemento1.classList.add("inactive");
-    }
     let number = getRandomIntInRange(1,25);
     let alreadycalled = false;
     callednumbers.forEach(numberCalled => {
@@ -81,6 +74,27 @@ function getNumber() {
     } else{
         getNumber();
     }
+
+    const banner = document.getElementById("winner-banner");
+    const bannerInside = document.createElement("div");
+    const winnerImg = document.createElement("img");
+    winnerImg.src = cardData[number-1].immagine;
+    const winnerName = document.createElement("h5");
+    winnerName.innerHTML = `${cardData[number-1].nome} ${cardData[number-1].cognome}`;
+
+    bannerInside.appendChild(winnerImg);
+    bannerInside.appendChild(winnerName);
+
+    banner.appendChild(bannerInside);
+    
+    banner.classList.remove("hidden");
+    banner.classList.add("show");
+
+    setTimeout(() => {
+        banner.classList.remove("show");
+        banner.classList.add("hidden");
+        banner.removeChild(bannerInside);
+    }, 5000);
 }
 
 function getRandomIntInRange(min, max) {
@@ -88,21 +102,25 @@ function getRandomIntInRange(min, max) {
 }
 
 function suspance() {
+    if (document.querySelector(".sorteggiato")) {
+        let elemento1 = document.querySelector(".sorteggiato");
+        elemento1.classList.remove("sorteggiato");
+        elemento1.classList.add("inactive");
+    }
     const cards = document.querySelectorAll('.card'); // Seleziona tutte le card
     let index = 0;
     
-    // Rimuove eventuali illuminazioni precedenti
     cards.forEach(card => card.classList.remove('highlight'));
 
     const interval = setInterval(() => {
         if (index > 0) cards[index - 1].classList.remove('highlight'); // Spegne la precedente
         if (index < cards.length) {
-            cards[index].classList.add('highlight'); // Accende la successiva
+            cards[index].classList.add('highlight');
             index++;
         } else {
             clearInterval(interval);
-            setTimeout(getNumber, 1000); // Dopo 15 sec, mostra il nome dello studente
+            setTimeout(getNumber, 1000);
         }
-    }, 400); // 600ms * 25 card ≈ 15 sec
+    }, 400);
 }
 

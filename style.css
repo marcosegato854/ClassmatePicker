@@ -1,3 +1,7 @@
+:root{
+  --yellow: rgb(255, 255, 131);
+}
+
 .row-cols-5 > * {
     flex: 0 0 auto;
     width: 20%;
@@ -18,7 +22,7 @@
   
   .card img {
     padding-top: 5px;
-    width: 30%;
+    width: 25%;
     height: auto;
     object-fit: cover;
   }
@@ -64,6 +68,32 @@
   }
 
   .card.highlight {
-    background-color: yellow; /* Cambia colore per l'illuminazione */
-    transition: background-color 0.3s ease-in-out;
+    background-color: var(--yellow);
+    box-shadow:0 0 10px var(--yellow), 0 0 20px var(--yellow), 0 0 30px var(--yellow);;
+    transition: background-color 0.2s ease-in-out;
+}
+
+#winner-banner {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-color: rgba(0, 0, 0, 0.9);
+  color: white;
+  padding: 20px 40px;
+  font-size: 2rem;
+  border-radius: 10px;
+  text-align: center;
+  display: none;
+  opacity: 0;
+  transition: opacity 0.5s ease-in-out;
+}
+
+#winner-banner.show {
+  display: block;
+  opacity: 1;
+}
+
+.hidden {
+  display: none;
 }
