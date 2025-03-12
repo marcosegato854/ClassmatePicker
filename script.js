@@ -28,7 +28,7 @@ const cardData = [
 const cardsDiv = document.getElementById("cards");
 const randomBtn = document.getElementById("sorteggia");
 
-randomBtn.addEventListener("click", getNumber);
+randomBtn.addEventListener("click", suspance);
 
 // Create a row container with Bootstrap classes
 const row = document.createElement("div");
@@ -85,5 +85,24 @@ function getNumber() {
 
 function getRandomIntInRange(min, max) {
     return Math.floor(Math.random() * (max - min + 1)) + min;
+}
+
+function suspance() {
+    const cards = document.querySelectorAll('.card'); // Seleziona tutte le card
+    let index = 0;
+    
+    // Rimuove eventuali illuminazioni precedenti
+    cards.forEach(card => card.classList.remove('highlight'));
+
+    const interval = setInterval(() => {
+        if (index > 0) cards[index - 1].classList.remove('highlight'); // Spegne la precedente
+        if (index < cards.length) {
+            cards[index].classList.add('highlight'); // Accende la successiva
+            index++;
+        } else {
+            clearInterval(interval);
+            setTimeout(getNumber, 1000); // Dopo 15 sec, mostra il nome dello studente
+        }
+    }, 400); // 600ms * 25 card ≈ 15 sec
 }
 

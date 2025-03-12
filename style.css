@@ -56,9 +56,14 @@
   }
 
   .sorteggiato{
-    background-color: green;    
+    background-color: green !important;    
   }
 
   .inactive{
-    background-color: grey;
+    background-color: grey !important;
   }
+
+  .card.highlight {
+    background-color: yellow; /* Cambia colore per l'illuminazione */
+    transition: background-color 0.3s ease-in-out;
+}
