@@ -25,6 +25,7 @@ const cardData = [
     { numero: 24, nome: "Simone", cognome: "Zoccarato", email: "simone.zoccarato.24@stud.itsaltoadriatico.it", immagine: "./img/Stud_img/24_Simone_Zoccarato.jpg" },
     { numero: 25, nome: "Giovanni", cognome: "Zol", email: "giovanni.zol.24@stud.itsaltoadriatico.it", immagine: "./img/Stud_img/25_Giovanni.jpg" }
 ];
+
 const cardsDiv = document.getElementById("cards");
 const randomBtn = document.getElementById("sorteggia");
 
@@ -51,7 +52,6 @@ cardData.forEach(student => {
     studNameSurname.className = "card-text";
     studNameSurname.innerHTML = `${student.nome} ${student.cognome}`;
 
-    
     card.appendChild(img);
     card.appendChild(studNameSurname);
     col.appendChild(card);
@@ -61,39 +61,38 @@ cardData.forEach(student => {
 let callednumbers = [];
 
 function getNumber() {
-    let number = getRandomIntInRange(1,25);
-    let alreadycalled = false;
-    callednumbers.forEach(numberCalled => {
-        if (number==numberCalled) {
-            alreadycalled = true;
-        }
-    });
-    if (!alreadycalled) {
-        document.getElementById(number).classList.add("sorteggiato");
-        callednumbers.push(number);
-    } else{
-        getNumber();
+    let number = getRandomIntInRange(1, 25);
+    while (callednumbers.includes(number)) {
+        number = getRandomIntInRange(1, 25);
     }
 
+    document.getElementById(number).classList.add("sorteggiato");
+    callednumbers.push(number);
+
     const banner = document.getElementById("winner-banner");
+    banner.innerHTML = ""; // Pulisce il contenuto precedente
+
     const bannerInside = document.createElement("div");
     const winnerImg = document.createElement("img");
-    winnerImg.src = cardData[number-1].immagine;
+    winnerImg.src = cardData[number - 1].immagine;
     const winnerName = document.createElement("h5");
-    winnerName.innerHTML = `${cardData[number-1].nome} ${cardData[number-1].cognome}`;
+    winnerName.innerHTML = `${cardData[number - 1].nome} ${cardData[number - 1].cognome}`;
 
     bannerInside.appendChild(winnerImg);
     bannerInside.appendChild(winnerName);
-
     banner.appendChild(bannerInside);
-    
+
     banner.classList.remove("hidden");
     banner.classList.add("show");
+
+    // Ferma la musica
+    const audio = document.getElementById("random-sound");
+    audio.pause();
+    audio.currentTime = 0;
 
     setTimeout(() => {
         banner.classList.remove("show");
         banner.classList.add("hidden");
-        banner.removeChild(bannerInside);
     }, 5000);
 }
 
@@ -107,15 +106,22 @@ function suspance() {
         elemento1.classList.remove("sorteggiato");
         elemento1.classList.add("inactive");
     }
-    const cards = document.querySelectorAll('.card'); // Seleziona tutte le card
+
+    const cards = document.querySelectorAll('.card');
+    let shuffledIndexes = Array.from(cards.keys()).sort(() => Math.random() - 0.5); // Ordine casuale
     let index = 0;
-    
+
+    // Resetta le illuminazioni precedenti
     cards.forEach(card => card.classList.remove('highlight'));
 
+    // Avvia la musica
+    const audio = document.getElementById("random-sound");
+    audio.play();
+
     const interval = setInterval(() => {
-        if (index > 0) cards[index - 1].classList.remove('highlight'); // Spegne la precedente
-        if (index < cards.length) {
-            cards[index].classList.add('highlight');
+        if (index > 0) cards[shuffledIndexes[index - 1]].classList.remove('highlight');
+        if (index < shuffledIndexes.length) {
+            cards[shuffledIndexes[index]].classList.add('highlight');
             index++;
         } else {
             clearInterval(interval);
@@ -123,4 +129,5 @@ function suspance() {
         }
     }, 400);
 }
+
 
